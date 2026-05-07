@@ -157,3 +157,4 @@ sequence:
         br: "{{ brightness | int }}"
         volume: "{{ volume | int }}"
     action: sonoff.send_command
+```

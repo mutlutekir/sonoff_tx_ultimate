@@ -45,30 +45,26 @@ You don't need to mess with complex file systems. You can create this script dir
 <details>
 <summary><b>Click to expand the Script YAML code</b></summary>
 ```yaml
-alias: Sonoff TX Ultimate - Control Panel
-description: >-
-  Send color, brightness, and effect commands to your TX Ultimate device using a visual interface.
+alias: Sonoff TX Ultimate - Kontrol Paneli
+description: "TX Ultimate cihazınıza görsel bir arayüzle renk, parlaklık ve efekt komutları gönderin."
 icon: mdi:lightbulb-multiple
 fields:
   target_device:
-    name: Sonoff Device
-    description: Select the device you want to send commands to from the list.
+    name: "Sonoff Cihazı"
+    description: "Listeden komut göndermek istediğiniz cihazı seçin."
     required: true
     selector:
       device:
         integration: sonoff
   rgb_color:
-    name: Light Color
-    description: Select a color from the palette for the halo light.
-    default:
-      - 255
-      - 0
-      - 0
+    name: "Işık Rengi"
+    description: "Halo ışığı için renk paletinden seçim yapın."
+    default: [255, 0, 0]
     selector:
       color_rgb: {}
   brightness:
-    name: Brightness
-    description: Adjust the light intensity.
+    name: "Parlaklık"
+    description: "Işık şiddetini ayarlayın."
     default: 100
     selector:
       number:
@@ -76,46 +72,46 @@ fields:
         max: 100
         unit_of_measurement: "%"
   light_effect:
-    name: Light Effect
-    description: The visual animation the device will play.
+    name: "Işık Efekti"
+    description: "Cihazın oynatacağı görsel animasyon."
     default: "0"
     selector:
       select:
         options:
-          - label: 0 - Effect Off
+          - label: "0 - Efekt Kapalı"
             value: "0"
-          - label: 1 - Wave Effect
+          - label: "1 - Dalga Efekti"
             value: "1"
-          - label: 2 - Breath Effect
+          - label: "2 - Nefes Efekti"
             value: "2"
-          - label: 3 - Cycle Effect
+          - label: "3 - Döngü Efekti"
             value: "3"
-          - label: 4 - Fast Transition
+          - label: "4 - Hızlı Geçiş"
             value: "4"
-          - label: 5 - Color Burst
+          - label: "5 - Renk Patlaması"
             value: "5"
   sound_effect:
-    name: Sound Effect
-    description: The accompanying sound effect to play.
+    name: "Ses Efekti"
+    description: "Beraberinde çalacak ses efekti."
     default: "0"
     selector:
       select:
         options:
-          - label: 0 - Sound Off
+          - label: "0 - Ses Kapalı"
             value: "0"
-          - label: 1 - Beep
+          - label: "1 - Bip"
             value: "1"
-          - label: 2 - Double Beep
+          - label: "2 - Çift Bip"
             value: "2"
-          - label: 3 - Melody 1
+          - label: "3 - Melodi 1"
             value: "3"
-          - label: 4 - Alarm Chime
+          - label: "4 - Alarm Zili"
             value: "4"
-          - label: 5 - Notification Sound
+          - label: "5 - Bildirim Sesi"
             value: "5"
   volume:
-    name: Volume Level
-    description: The volume level of the effect to be played.
+    name: "Ses Seviyesi"
+    description: "Çalınacak efektin ses düzeyi."
     default: 80
     selector:
       number:
@@ -123,27 +119,30 @@ fields:
         max: 100
         unit_of_measurement: "%"
   top_light:
-    name: Top Light Panel
-    description: Should the top status lights be activated?
+    name: "Üst Işık Paneli"
+    description: "Üst durum ışıkları aktif edilsin mi?"
     default: true
     selector:
       boolean: {}
   bottom_light:
-    name: Bottom Light Panel
-    description: Should the bottom status lights be activated?
+    name: "Alt Işık Paneli"
+    description: "Alt durum ışıkları aktif edilsin mi?"
     default: true
     selector:
       boolean: {}
 sequence:
   - variables:
       ewelink_id: >-
-        {% set idents = device_attr(target_device, 'identifiers') | list %} {%
-        set ns = namespace(id=target_device) %} {% for ident in idents %}
+        {% set idents = device_attr(target_device, 'identifiers') | list %}
+        {% set ns = namespace(id=target_device) %}
+        {% for ident in idents %}
           {% if ident[0] == 'sonoff' %}
             {% set ns.id = ident[1] %}
           {% endif %}
-        {% endfor %} {{ ns.id }}
-  - data:
+        {% endfor %}
+        {{ ns.id }}
+  - service: sonoff.send_command
+    data:
       device: "{{ ewelink_id }}"
       preEffects:
         lightEffect: "{{ light_effect | int }}"
@@ -156,5 +155,4 @@ sequence:
         b: "{{ rgb_color[2] }}"
         br: "{{ brightness | int }}"
         volume: "{{ volume | int }}"
-    action: sonoff.send_command
 ```

@@ -25,6 +25,16 @@ When you add this script to your dashboard or call it in an automation, it provi
 
 ---
 
+📖 Usage & Customization Tips
+For a detailed walkthrough of this code and its logic, you can watch the full tutorial here: YouTube Video Link.
+
+Effect Duration: This script sends short-term effects (approx. 3 seconds).
+
+Looping Effects: If you want a longer duration, you can set up a Home Assistant automation to trigger this script every 3 seconds while a specific condition is met.
+
+Permanent Changes: For long-term effect changes (e.g., permanent ambient lighting modes), you can modify the YAML to use onEffects or offEffects parameters instead of preEffects.
+---
+
 ## 📋 Prerequisites
 
 1. **Home Assistant** (Up and running).

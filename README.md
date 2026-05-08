@@ -26,7 +26,7 @@ When you add this script to your dashboard or call it in an automation, it provi
 ---
 
 📖 Usage & Customization Tips
-For a detailed walkthrough of this code and its logic, you can watch the full tutorial here: YouTube Video Link.
+For a detailed walkthrough of this code and its logic, you can watch the full tutorial here: YouTube Video Link. https://www.youtube.com/watch?v=yUseXMxl0nU
 
 Effect Duration: This script sends short-term effects (approx. 3 seconds).
 

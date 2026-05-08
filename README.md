@@ -44,27 +44,28 @@ You don't need to mess with complex file systems. You can create this script dir
 
 <details>
 <summary><b>Click to expand the Script YAML code</b></summary>
+  
 ```yaml
-alias: Sonoff TX Ultimate - Kontrol Paneli
-description: "TX Ultimate cihazınıza görsel bir arayüzle renk, parlaklık ve efekt komutları gönderin."
+alias: Sonoff TX Ultimate - Control Panel
+description: "Send color, brightness, and effect commands to your TX Ultimate device via a visual interface."
 icon: mdi:lightbulb-multiple
 fields:
   target_device:
-    name: "Sonoff Cihazı"
-    description: "Listeden komut göndermek istediğiniz cihazı seçin."
+    name: "Sonoff Device"
+    description: "Select the device you want to send commands to from the list."
     required: true
     selector:
       device:
         integration: sonoff
   rgb_color:
-    name: "Işık Rengi"
-    description: "Halo ışığı için renk paletinden seçim yapın."
+    name: "Light Color"
+    description: "Select a color from the palette for the halo light."
     default: [255, 0, 0]
     selector:
       color_rgb: {}
   brightness:
-    name: "Parlaklık"
-    description: "Işık şiddetini ayarlayın."
+    name: "Brightness"
+    description: "Adjust the light intensity."
     default: 100
     selector:
       number:
@@ -72,46 +73,46 @@ fields:
         max: 100
         unit_of_measurement: "%"
   light_effect:
-    name: "Işık Efekti"
-    description: "Cihazın oynatacağı görsel animasyon."
+    name: "Light Effect"
+    description: "The visual animation the device will play."
     default: "0"
     selector:
       select:
         options:
-          - label: "0 - Efekt Kapalı"
+          - label: "0 - Effect Off"
             value: "0"
-          - label: "1 - Dalga Efekti"
+          - label: "1 - Wave Effect"
             value: "1"
-          - label: "2 - Nefes Efekti"
+          - label: "2 - Breath Effect"
             value: "2"
-          - label: "3 - Döngü Efekti"
+          - label: "3 - Cycle Effect"
             value: "3"
-          - label: "4 - Hızlı Geçiş"
+          - label: "4 - Quick Transition"
             value: "4"
-          - label: "5 - Renk Patlaması"
+          - label: "5 - Color Burst"
             value: "5"
   sound_effect:
-    name: "Ses Efekti"
-    description: "Beraberinde çalacak ses efekti."
+    name: "Sound Effect"
+    description: "The sound effect that will play alongside the light."
     default: "0"
     selector:
       select:
         options:
-          - label: "0 - Ses Kapalı"
+          - label: "0 - Sound Off"
             value: "0"
-          - label: "1 - Bip"
+          - label: "1 - Beep"
             value: "1"
-          - label: "2 - Çift Bip"
+          - label: "2 - Double Beep"
             value: "2"
-          - label: "3 - Melodi 1"
+          - label: "3 - Melody 1"
             value: "3"
-          - label: "4 - Alarm Zili"
+          - label: "4 - Alarm Chime"
             value: "4"
-          - label: "5 - Bildirim Sesi"
+          - label: "5 - Notification Sound"
             value: "5"
   volume:
-    name: "Ses Seviyesi"
-    description: "Çalınacak efektin ses düzeyi."
+    name: "Volume Level"
+    description: "The volume level of the selected effect."
     default: 80
     selector:
       number:
@@ -119,14 +120,14 @@ fields:
         max: 100
         unit_of_measurement: "%"
   top_light:
-    name: "Üst Işık Paneli"
-    description: "Üst durum ışıkları aktif edilsin mi?"
+    name: "Top Light Panel"
+    description: "Should the top status lights be activated?"
     default: true
     selector:
       boolean: {}
   bottom_light:
-    name: "Alt Işık Paneli"
-    description: "Alt durum ışıkları aktif edilsin mi?"
+    name: "Bottom Light Panel"
+    description: "Should the bottom status lights be activated?"
     default: true
     selector:
       boolean: {}
@@ -148,6 +149,13 @@ sequence:
         lightEffect: "{{ light_effect | int }}"
         soundEffect: "{{ sound_effect | int }}"
         statusLight: "on"
+        statusLightTop: "{{ 1 if top_light else 0 }}"
+        statusLightBelow: "{{ 1 if bottom_light else 0 }}"
+        r: "{{ rgb_color[0] }}"
+        g: "{{ rgb_color[1] }}"
+        b: "{{ rgb_color[2] }}"
+        br: "{{ brightness | int }}"
+        volume: "{{ volume | int }}"
         statusLightTop: "{{ 1 if top_light else 0 }}"
         statusLightBelow: "{{ 1 if bottom_light else 0 }}"
         r: "{{ rgb_color[0] }}"
